@@ -9,7 +9,7 @@
               <div>
                 <SearchForm2 />
               </div>
-              <div>
+              <div class="mr-2">
                 <button type="button" data-bs-toggle="modal" data-bs-target="#addCompany" class="custom-btn btn-2">
                   Add
                 </button>
@@ -41,7 +41,7 @@
                 <div class="modal-content">
                   <div class="modal-header d-flex justify-content-between">
                     <h5 class="modal-title" id="exampleModalLabel">
-                      {{ selectedCompanyName}}
+                      {{ selectedCompanyName }}
                     </h5>
                     <i data-bs-dismiss="modal" class="bi btn btn-sm text-danger fs-4 bi-x-square-fill"></i>
                   </div>
@@ -54,59 +54,58 @@
 
             <!-- Company MODE -->
             <div>
-              <table class="table table-striped mt-2">
-                <thead class="text-capitalize text-center fw-bolder text-primary">
-                  <tr>
-                    <th scope="col" class="header-cell col">Name</th>
-                    <th scope="col" class="header-cell col">Tel</th>
-                    <th scope="col" class="header-cell col">Tel-2</th>
-                    <th scope="col" class="header-cell col">Address</th>
-                    <th scope="col" class="header-cell col">Location</th>
-                    <th scope="col" class="header-cell col">Type</th>
-                    <th scope="col" class="header-cell col">UIId</th>
-                    <th scope="col" class="header-cell col">Email</th>
-                    <th scope="col" class="header-cell col">Serial Number</th>
-                    <th scope="col" class="header-cell col">Sub Companies</th>
-                    <th scope="col" class="header-cell col"></th>
-                  </tr>
-                </thead>
+              <div class="tableFixHead2">
+                <table class="table table-striped mt-4">
+                  <thead class="text-capitalize fw-bolder text-primary">
+                    <tr>
+                      <th scope="col" class="header-cell col">Name</th>
+                      <th scope="col" class="header-cell col">Tel-1</th>
+                      <th scope="col" class="header-cell col">Tel-2</th>
+                      <th scope="col" class="header-cell col">Address</th>
+                      <th scope="col" class="header-cell col">Address-2</th>
+                      <th scope="col" class="header-cell col">Location</th>
+                      <th scope="col" class="header-cell col">Email</th>
+                      <th scope="col" class="header-cell col">Serial Number</th>
+                      <th scope="col" class="header-cell col"></th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  <tr v-for="(company, index) in companies" :key="company.id" class="text-center">
-                    <td>{{ company.name }}</td>
-                    <td>{{ company.tel }}</td>
-                    <td>{{ company.tel2 }}</td>
-                    <td>{{ company.address }}</td>
-                    <td>{{ company.location }}</td>
-                    <td>{{ company.type }}</td>
-                    <td>{{ company.uiId }}</td>
-                    <td>{{ company.serialNumber }}</td>
-                    <td class="text-center">{{ company.email }}</td>
-                    <td class="text-center">
-                      <button type="button" data-bs-toggle="modal" data-bs-target="#viewSubCompany"
-                        class="btn btn-secondary rounded-3" @click="viewSubCompanies(company)">
-                        View
-                      </button>
-                    </td>
-                    <td>
-                      <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown"
-                          data-bs-toggle="dropdown" aria-expanded="false">
-                          Actions
+                  <tbody>
+                    <tr v-for="(company, index) in companies" :key="company.id">
+                      <td>{{ company.name }}</td>
+                      <td>{{ company.tel1 }}</td>
+                      <td>{{ company.tel2 }}</td>
+                      <td>{{ company.address1 }}</td>
+                      <td>{{ company.address2 }}</td>
+                      <td>{{ company.location }}</td>
+                      <td>{{ company.email }}</td>
+                      <td class="text-center">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#viewCompanySerial"
+                          class="btn btn-secondary rounded-3" @click="selectCompany(company)">
+                          View
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="actionDropdown">
-                          <li><a class="dropdown-item" @click="editCompany(company)"><i class="bi bi-eye-fill"></i>
-                              Edit</a></li>
-                          <li><a class="dropdown-item" @click="deleteCompany(company, index)"><i
-                                class="bi bi-trash3-fill"></i>
-                              Delete</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      </td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="actionDropdown">
+                            <li><a class="dropdown-item" @click="editCompany(company)"><i class="bi bi-eye-fill"></i>
+                                Edit</a></li>
+                            <li><a class="dropdown-item" @click="deleteCompany(company, index)"><i
+                                  class="bi bi-trash3-fill"></i>
+                                Delete</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -146,7 +145,7 @@
                   <tr v-for="(subCompany, index) in selectedCompany.subCompanies" :key="subCompany.name"
                     class="text-center">
                     <td>{{ subCompany.name }}</td>
-                    <td>{{ subCompany.tel }}</td>
+                    <td>{{ subCompany.tel1 }}</td>
                     <td>{{ subCompany.tel2 }}</td>
                     <td>{{ subCompany.address }}</td>
                     <td>{{ subCompany.location }}</td>
@@ -206,7 +205,22 @@
               <i data-bs-dismiss="modal" class="bi btn btn-sm text-danger fs-4 bi-x-square-fill"></i>
             </div>
             <div class="modal-body">
-              <AddCompanyForm :subCompany="selectedCompany" @companyAdded="addCompany" />
+              <AddSubCompanyForm :subCompany="selectedCompany" @companyAdded="addCompany" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GENERATE COMPANY SERIAL -->
+      <div class="modal fade" id="viewCompanySerial" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ selectedCompanyName }}</h5>
+            </div>
+            <div class="modal-body">
+              <ViewCompanySerial :company="selectedCompany" />
             </div>
           </div>
         </div>
@@ -221,68 +235,6 @@ export default {
   data() {
     return {
       companies: [
-        {
-          name: 'Blue Fox',
-          tel: '123-456-7890',
-          tel2: '123-456-7890',
-          address: '123 Main St',
-          location: 'City A',
-          type: 'Type A',
-          uiId: 'UI123',
-          email: 'companya@example.com',
-          serialNumber: '15C16ADE',
-          subCompanies: [
-            {
-              name: 'Pill Check',
-              tel: '987-654-3210',
-              tel2: '123-456-7890',
-              address: '456 Elm St',
-              location: 'City B',
-              email: 'companyb@example.com',
-              serialNumber: 'CC855D',
-            },
-            {
-              name: 'Adonai',
-              tel: '665-654-3210',
-              tel2: '123-456-0000',
-              address: '546 Mel St',
-              location: 'City C',
-              email: 'companyc@example.com',
-              serialNumber: 'CC8553',
-            }
-          ],
-        },
-        {
-          name: 'Turniq Health',
-          tel: '987-654-3210',
-          tel2: '123-456-7890',
-          address: '456 Elm St',
-          location: 'City B',
-          type: 'Type B',
-          uiId: 'UI456',
-          email: 'companyb@example.com',
-          serialNumber: '15C16ADE',
-          subCompanies: [
-            {
-              name: 'Company X',
-              tel: '987-654-3210',
-              tel2: '123-456-7890',
-              address: '456 Elm St',
-              location: 'City B',
-              email: 'companyb@example.com',
-              serialNumber: 'FF5488a',
-            },
-            {
-              name: 'Company Y',
-              tel: '987-654-3210',
-              tel2: '123-456-7890',
-              address: '456 Elm St',
-              location: 'City B',
-              email: 'companyb@example.com',
-              serialNumber: 'SSO5771',
-            },
-          ]
-        },
       ],
       searchTerm: '',
       searchStart: false,
@@ -293,9 +245,39 @@ export default {
     };
   },
   methods: {
-    viewSubCompanies(company) {
-      this.selectedCompany = company;
-      this.selectedCompanyName = company.name;
+    async fetchCompanies() {
+      try {
+        const response = await this.$axios.get(this.$store.state.urlBase + "rest/adcomp/all");
+        if (response.data.sucessful) {
+          this.companies = response.data.data;
+          console.log('Companies fetched successfully', this.companies);
+        } else {
+          console.log('Could not fetch companies', response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching companies:", error);
+      }
+    },
+
+    async deleteCompany(company, index) {
+      let dat = this;
+      let payload = {};
+      payload.info = "Are you sure you want to delete " + company.name + "?";
+      payload.addfun = async function (state, page, axios) {
+        try {
+          let response = await this.$axios.get(this.$store.state.urlBase + "rest/adcomp/del/" + company.id);
+          if (response.data.sucessful) {
+            dat.companies.splice(index, 1);
+            payload.message = response.data.message;
+          } else {
+            payload.message = "Failed to delete: " + response.data.message;
+          }
+        } catch (err) {
+          payload.message = err;
+        }
+
+      };
+      this.$store.commit("showSimpleYesOrNo2", payload);
     },
 
     addCompany(newCompany) {
@@ -316,31 +298,31 @@ export default {
 
     editSubCompany(subCompany) {
       this.selectedCompany = subCompany;
-      $("#editSubCompany").modal('show')
+      this.selectedCompanyName = company.name;
+      $("#editCompany").modal('show')
     },
 
-    deleteCompany(company, index) {
-			let dat = this;
-			let payload = {};
-			payload.info = "Are you sure you want to delete " + company.name + "?";
-			payload.addfun = async function (state, page, axios) {
-        dat.companies.splice(index, 1);
-					// payload.message = response.data.message;
-			};
-			this.$store.commit("showSimpleYesOrNo2", payload);
-		},
+    selectCompany(company) {
+      this.selectedCompany = company;
+      this.selectedCompanyName = company.name;
+    },
 
-    deleteSub(subCompany, index) {
-			let dat = this;
-			let payload = {};
-			payload.info = "Are you sure you want to delete " + subCompany.name + "?";
-			payload.addfun = async function (state, page, axios) {
-        dat.selectedCompany.subCompanies.splice(index, 1);
-					// payload.message = response.data.message;
-			};
-			this.$store.commit("showSimpleYesOrNo2", payload);
-		},
+    async deleteSub(subCompany, index) {
+      let dat = this;
+      let payload = {};
+      payload.info = "Are you sure you want to delete " + subCompany.name + "?";
+      payload.addfun = async function (state, page, axios) {
+        const response = await
+          dat.selectedCompany.subCompanies.splice(index, 1);
+        // payload.message = response.data.message;
+      };
+      this.$store.commit("showSimpleYesOrNo2", payload);
+    },
   },
+
+  mounted() {
+    this.fetchCompanies();
+  }
 };
 </script>
 
@@ -421,6 +403,20 @@ button.on {
   grid-area: 1 / 1 / 2 / 2;
   height: 88vh;
 }
+
+.tableFixHead2 {
+  overflow-y: auto;
+  height: 75vh;
+  text-align: left;
+}
+
+.tableFixHead2 thead th {
+  /* background-color: #000; */
+  position: sticky;
+  top: 0px;
+  border-bottom: 1px solid #000;
+}
+
 
 .header-cell {
   border-bottom: 1px solid #000;

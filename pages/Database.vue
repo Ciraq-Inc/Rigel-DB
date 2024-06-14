@@ -8,7 +8,7 @@
               <SearchForm2 />
 
               <!-- Search Filter -->
-              <div>
+              <!-- <div>
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="filterDropdown"
                   data-bs-toggle="dropdown" aria-expanded="false">
                   Search Filter
@@ -39,7 +39,7 @@
                     </label>
                   </li>
                 </ul>
-              </div>
+              </div> -->
             </div>
 
             <!-- COMPANY MODE -->
@@ -61,13 +61,13 @@
                 <tbody>
                   <tr v-for="company in companyDatabase" :key="company.name">
                     <td class="text-center">{{ company.name }}</td>
-                    <td class="text-center">{{ company.dDate }}</td>
-                    <td class="text-center">{{ company.isOnline }}</td>
-                    <td class="text-center">{{ company.onlineDate }}</td>
-                    <td class="text-center">{{ company.isLocalOnline }}</td>
-                    <td class="text-center">{{ company.localOnlineDate }}</td>
+                    <td class="text-center">{{ company.ddate }}</td>
+                    <td class="text-center">{{ company.isonline }}</td>
+                    <td class="text-center">{{ company.lastonlinedate }}</td>
+                    <td class="text-center">{{ company.islocalonline }}</td>
+                    <td class="text-center">{{ company.lastlocalonlinedate }}</td>
                     <td class="text-center">{{ company.username }}</td>
-                    <td class="text-center">{{ company.password }}</td>
+                    <td class="text-center">{{ company.passw }}</td>
                     <td class="text-center">
                       <button class="btn btn-primary" @click="editCompany(company)">Edit</button>
                     </td>
@@ -90,27 +90,27 @@
               <i data-bs-dismiss="modal" class="bi btn btn-sm text-danger fs-4 bi-x-square-fill"></i>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" style="width: 90%; margin: 0 auto;" @submit.prevent="submitAdded">
-                  <fieldset>
+              <form class="form-horizontal" style="width: 90%; margin: 0 auto;" @submit.prevent="submitAdded">
+                <fieldset>
                   <!-- USERNAME -->
-                    <div class="row justify-content-between text-left my-4">
-                      <div class="form-group col-sm-6 flex-column d-flex">
-                        <label class="control-label px-3">Username<span class="text-danger"> *</span></label>
-                        <input autofocus="autofocus" type="text" id="username" name="username" placeholder=""
+                  <div class="row justify-content-between text-left my-4">
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="control-label px-3">Username<span class="text-danger"> *</span></label>
+                      <input autofocus="autofocus" type="text" id="username" name="username" placeholder=""
                         v-model.trim="localCompany.username" required>
-                      </div>  
-                      <!-- PASSWORD -->
-                      <div class="form-group col-sm-6 flex-column d-flex">
-                        <label class="control-label px-3">Password<span class="text-danger"> *</span></label>
-                        <input autofocus="autofocus" type="text" id="password" name="password" placeholder=""
-                        v-model.trim="localCompany.password" required>
-                      </div>
-                      </div>
-                      <div class="d-flex mt-6 justify-content-center">
-                        <button type="submit" class="custom-btn btn-2">Submit</button>
-                      </div>
-                  </fieldset>
-                </form>
+                    </div>
+                    <!-- PASSWORD -->
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="control-label px-3">Password<span class="text-danger"> *</span></label>
+                      <input autofocus="autofocus" type="text" id="password" name="password" placeholder=""
+                        v-model.trim="localCompany.passw" required>
+                    </div>
+                  </div>
+                  <div class="d-flex mt-6 justify-content-center">
+                    <button type="submit" class="custom-btn btn-2">Submit</button>
+                  </div>
+                </fieldset>
+              </form>
             </div>
           </div>
         </div>
@@ -126,60 +126,17 @@ export default {
     return {
       selectedCompany: null,
       selectedCompanyName: '',
-
       localCompany: {
-        username: '',
-        password: '',
       },
-
       companyDatabase: [
-        {
-          name: 'T-rex',
-          dDate: '2023-11-01',
-          isOnline: true,
-          onlineDate: '2023-11-02',
-          isLocalOnline: false,
-          localOnlineDate: '2023-11-03',
-          username: 'user1',
-          password: 'password1',
-        },
-        {
-          name: 'Kitkeer',
-          dDate: '2023-11-04',
-          isOnline: false,
-          onlineDate: '2023-11-05',
-          isLocalOnline: true,
-          localOnlineDate: '2023-11-06',
-          username: 'user2',
-          password: 'password2',
-        },
-        {
-          name: 'Raptor',
-          dDate: '2023-11-07',
-          isOnline: true,
-          onlineDate: '2023-11-08',
-          isLocalOnline: true,
-          localOnlineDate: '2023-11-09',
-          username: 'user3',
-          password: 'password3',
-        },
-        {
-          name: 'Brancho',
-          dDate: '2023-11-10',
-          isOnline: false,
-          onlineDate: '2023-11-11',
-          isLocalOnline: false,
-          localOnlineDate: '2023-11-12',
-          username: 'user4',
-          password: 'password4',
-        },
       ],
-      filters: {
-        isOnline: false,
-        onlineDate: false,
-        localOnlineDate: false,
-        isLocalOnline: false,
-      },
+
+      // filters: {
+      //   isOnline: false,
+      //   onlineDate: false,
+      //   localOnlineDate: false,
+      //   isLocalOnline: false,
+      // },
     };
   },
   methods: {
@@ -196,10 +153,30 @@ export default {
         this.selectedCompany.password = this.localCompany.password;
         console.log('Form Submitted');
         $("#editCompany").modal('hide');
-    }
+      }
+    },
+
+    async fetchDatabase() {
+      try {
+        const response = await this.$axios.get(this.$store.state.urlBase + "rest/adcomp/computers");
+        if (response.data.sucessful) {
+          this.companyDatabase = response.data.data;
+          console.log("Company Database successfully fetched")
+        } else {
+          console.log('Could not fetch company database', response.data.message);
+        }
+      } catch (err) {
+        console.log("Error fetching company database", error)
+      }
+    },
+
+
   },
-  },
-};
+  mounted() {
+    this.fetchDatabase();
+  }
+
+}
 </script>
 
 <style scoped>

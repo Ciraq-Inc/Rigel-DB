@@ -18,7 +18,7 @@
   
                     <div>
                       <input type="text" name="" id="" placeholder="company type" v-model="itemName" @input="handleInput">
-                      <button :disabled="isButtonDisabled" @click="addItem(4)" class="btn btn-primary">
+                      <button :disabled="isButtonDisabled" @click="addItem(5)" class="btn btn-primary">
                         Create Company Type
                       </button>
                     </div>

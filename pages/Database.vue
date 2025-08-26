@@ -55,12 +55,13 @@
                     <th scope="col">Local Online Date</th>
                     <th scope="col">Username</th>
                     <th scope="col">Password</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr v-for="company in companyDatabase" :key="company.name">
-                    <td class="text-center">{{ company.name }}</td>
+                  <tr v-for="(company, index) in companyDatabase" :key="company.name">
+                    <td>{{ `${index + 1}. ${company.company}` }}</td>
                     <td class="text-center">{{ company.ddate }}</td>
                     <td class="text-center">{{ company.isonline }}</td>
                     <td class="text-center">{{ company.lastonlinedate }}</td>

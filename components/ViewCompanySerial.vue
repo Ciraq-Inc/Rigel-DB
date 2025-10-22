@@ -2,7 +2,7 @@
   <div>
     <h3>Generated Serial: <strong>{{ generatedSerial }}</strong></h3>
     <div class="modal-footer">
-      <button @click="generateSerial" type="button" class="btn btn-primary">Generate</button>
+      <button @click="generateSerial" type="button" class="btn btn-primary">View Serial No.</button>
       <button @click="reset" type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
     </div>
   </div>

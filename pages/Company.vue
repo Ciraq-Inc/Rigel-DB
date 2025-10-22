@@ -7,7 +7,7 @@
             <div class="d-flex justify-content-between align-items-right col-12">
               <!-- <h3 class="text-primary">Company List</h3> -->
               <div>
-                <SearchForm2 />
+                <SearchForm2 @search="onSearch" />
               </div>
               <div class="mr-2">
                 <button type="button" data-bs-toggle="modal" data-bs-target="#addCompany" class="custom-btn btn-2">
@@ -73,7 +73,7 @@
                   </thead>
 
                   <tbody>
-                    <tr v-for="(company, index) in companies" :key="company.id">
+                    <tr v-for="(company, index) in filteredCompanies" :key="company.id">
                       <td> {{ index + 1}}.</td>
                       <td> {{company.name}}</td>
                       <td>{{ company.tel1 }}</td>
@@ -248,7 +248,18 @@ export default {
       company: {}
     };
   },
+  computed: {
+    filteredCompanies() {
+      return this.companies.filter(company =>
+        company.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  },
   methods: {
+    onSearch(value) {
+      this.searchTerm = value;
+    },
+
     async fetchCompanies() {
       try {
         const response = await this.$axios.get(this.$store.state.urlBase + "rest/adcomp/all");

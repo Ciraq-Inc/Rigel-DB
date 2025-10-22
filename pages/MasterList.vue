@@ -319,7 +319,45 @@
                       class="bi btn btn-sm text-danger fs-4 bi-x-square-fill"
                     ></i>
                   </div>
-                  <div class="modal-body"></div>
+                  <div class="modal-body">
+                    <div v-if="productSelected" class="product-details">
+                      <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Product Name:</strong></div>
+                        <div class="col-sm-8">{{ productSelected.name }}</div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Master ID:</strong></div>
+                        <div class="col-sm-8">{{ productSelected.id }}</div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Active Ingredients:</strong></div>
+                        <div class="col-sm-8">{{ productSelected.productactiveCollection || 'N/A' }}</div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Base Unit:</strong></div>
+                        <div class="col-sm-8">{{ productSelected.basiunit || 'N/A' }}</div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Manufacturer:</strong></div>
+                        <div class="col-sm-8">{{ productSelected.manufacturer || 'N/A' }}</div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Category:</strong></div>
+                        <div class="col-sm-8">{{ productSelected.category || 'N/A' }}</div>
+                      </div>
+                      <div class="row mb-3" v-if="hasProductImage(productSelected.id)">
+                        <div class="col-sm-4"><strong>Product Image:</strong></div>
+                        <div class="col-sm-8">
+                          <img
+                            :src="productImageUrls[productSelected.id]"
+                            :alt="productSelected.name"
+                            class="img-fluid rounded"
+                            style="max-height: 200px;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

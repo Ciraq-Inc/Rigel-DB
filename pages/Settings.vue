@@ -105,14 +105,20 @@
                       justify-content: space-between;
                     ">
                     <h5>Active Ingredients</h5>
-  
-                    <div>
-                      <input type="text" name="" id="" placeholder="Active Ingredient" v-model="itemName"
-                        @input="handleInput">
-                      <button :disabled="isButtonDisabled" @click="addItem(3)" class="btn btn-primary">
-                        Add Ingredient
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <SearchForm2 @search="onSearchIngredients" placeholder="Search ingredients..." />
+                      <button @click="refreshData" class="btn btn-secondary" title="Refresh">
+                        <i class="bx bx-refresh"></i>
                       </button>
                     </div>
+                  </div>
+  
+                  <div style="margin-top: 10px;">
+                    <input type="text" name="" id="" placeholder="Active Ingredient" v-model="itemName"
+                      @input="handleInput">
+                    <button :disabled="isButtonDisabled" @click="addItem(3)" class="btn btn-primary">
+                      Add Ingredient
+                    </button>
                   </div>
                   <table class="table">
                     <thead>
@@ -124,7 +130,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(activeIngredient, index)  in activeIngredients" :key="activeIngredient.id">
+                      <tr v-for="(activeIngredient, index)  in filteredIngredients" :key="activeIngredient.id">
                         <td>{{ activeIngredient.name }}</td>
                         <td class="text-center d-flex">
                           <button class="btn-1" @click="editItem(activeIngredient)">Edit</button>
@@ -283,10 +289,23 @@
         isButtonDisabled: true,
         itemSelected: {},
         itemEdit: '',
+        ingredientSearchTerm: '',
       }
     },
-  
+
+    computed: {
+      filteredIngredients() {
+        return this.activeIngredients.filter(ing =>
+          ing.name.toLowerCase().includes(this.ingredientSearchTerm.toLowerCase())
+        );
+      }
+    },
+
     methods: {
+      onSearchIngredients(value) {
+        this.ingredientSearchTerm = value;
+      },
+
       addGeneralItem(itemId, name) {
         const newItem = { id: itemId, other1: name };
         const newItem2 = { id: itemId, name: name };
@@ -407,7 +426,25 @@
       handleInput() {
         this.isButtonDisabled = this.itemName.trim() === "";
         },
-  
+
+      refreshData() {
+        this.refreshDataAsync();
+      },
+
+      async refreshDataAsync() {
+        let s = await this.fetchData("rest/mps/loadall/1")
+        this.strengths = s.data.data
+
+        let s2 = await this.fetchData("rest/mps/loadall/2")
+        this.units = s2.data.data
+
+        let s3 = await this.fetchData("rest/mps/loadall/3")
+        this.activeIngredients = s3.data.data;
+
+        let s4 = await this.fetchData("rest/mps/loadall/4")
+        this.classifications = s4.data.data;
+      },
+
       async fetchData(url) {
         try {
   
@@ -432,22 +469,7 @@
       },
   
     async mounted() {
-        let s = await this.fetchData("rest/mps/loadall/1")
-        this.strengths = s.data.data
-  
-        //  console.log(s)
-  
-        let s2 = await this.fetchData("rest/mps/loadall/2")
-        this.units = s2.data.data
-        //  console.log(s2)
-  
-        let s3 = await this.fetchData("rest/mps/loadall/3")
-        this.activeIngredients = s3.data.data;
-  
-        let s4 = await this.fetchData("rest/mps/loadall/4")
-        this.classifications = s4.data.data;
-  
-  
+        await this.refreshDataAsync();
       }
   };
   </script>

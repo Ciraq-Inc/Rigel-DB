@@ -7,7 +7,8 @@ import axios from '@nuxtjs/axios'
 export const state = () => ({
   // urlBase: "http://192.168.100.37:8081/updateronline/",
   // urlBase: "/test/",
-  urlBase: "http://auto.rigelos.com:8083/test/",
+  // urlBase: "http://auto.rigelos.com:8083/test/",
+  urlBase: "http://109.199.110.41:8083/test/",
 
   // urlBase: "http://auto.rigelos.com:81/test/",
   dialoginfo: "",

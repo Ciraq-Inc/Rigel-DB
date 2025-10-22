@@ -220,7 +220,7 @@
                         ref="productImageInput"
                       />
                       <small class="form-text text-muted"
-                        >Only JPG/JPEG images are allowed (Max 5MB)</small
+                        >Only JPG/JPEG images are allowed (Max 100KB)</small
                       >
                     </div>
                     <div v-if="uploadImagePreview" class="mb-3">
@@ -632,10 +632,10 @@ export default {
         return false;
       }
 
-      // Check file size (limit to 5MB)
-      const maxSize = 5 * 1024 * 1024; // 5MB
+      // Check file size (limit to 100KB)
+      const maxSize = 100 * 1024; // 100KB
       if (file.size > maxSize) {
-        alert('File size must be less than 5MB. Please choose a smaller file.');
+        alert('File size must be less than 100KB. Please choose a smaller file.');
         this.resetFileInput();
         return false;
       }

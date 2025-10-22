@@ -58,6 +58,7 @@
                 <table class="table table-striped mt-4">
                   <thead class="text-capitalize fw-bolder text-primary">
                     <tr>
+                      <th scope="col" class="header-cell col">No.</th>
                       <th scope="col" class="header-cell col">Name</th>
                       <th scope="col" class="header-cell col">Tel-1</th>
                       <th scope="col" class="header-cell col">Tel-2</th>
@@ -65,6 +66,7 @@
                       <th scope="col" class="header-cell col">Address-2</th>
                       <th scope="col" class="header-cell col">Location</th>
                       <th scope="col" class="header-cell col">Email</th>
+                      <th scope="col" class="header-cell col">ID</th>
                       <th scope="col" class="header-cell col">Serial Number</th>
                       <th scope="col" class="header-cell col"></th>
                     </tr>
@@ -72,13 +74,15 @@
 
                   <tbody>
                     <tr v-for="(company, index) in companies" :key="company.id">
-                      <td>{{ company.name }}</td>
+                      <td> {{ index + 1}}.</td>
+                      <td> {{company.name}}</td>
                       <td>{{ company.tel1 }}</td>
                       <td>{{ company.tel2 }}</td>
                       <td>{{ company.address1 }}</td>
                       <td>{{ company.address2 }}</td>
                       <td>{{ company.location }}</td>
                       <td>{{ company.email }}</td>
+                      <td>{{ company.id }}</td>
                       <td class="text-center">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#viewCompanySerial"
                           class="btn btn-secondary rounded-3" @click="selectCompany(company)">
